@@ -28,7 +28,34 @@ router.post('/', (req, res) => {
   .then(()=>res.redirect('/'))
 })
 
+// edit
+router.get('/:id/edit', (req, res) => {
+  const id = req.params.id
+  Record.findById(id)
+    .lean()
+    .then(record => {
+      const fomatted_date = moment(record.date).format('YYYY-MM-DD')
+      const category = categorize(record.categoryId)
+      res.render('edit', { record: record, date: fomatted_date, category: category })
+    })
+})
 
+router.post('/:id', async (req, res) => {
+  const id = req.params.id
+  const { name, date, amount, categoryId } = req.body
+  Record.findById(id)
+    .then(record => {
+      record.name = name
+      record.date = date
+      record.amount = amount
+      record.categoryId = categoryId
+      return record.save()
+
+    })
+    .then(() => res.redirect(`/records/${id}/edit`))
+})
+
+// delete
 
 
 module.exports = router
