@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="btn-group">
+    <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+      aria-expanded="false">
+      類別
+    </button>
+    <div class="dropdown-menu">
+      <a href="/" class="dropdown-item">全部</a>
+      <a href="/sortBy=household" class="dropdown-item">家居物業</a>
+      <a href="/sortBy=transportation"class="dropdown-item">交通出行</a>
+      <a href="/sortBy=entertainment" class="dropdown-item">休閒娛樂</a>
+      <a href="/sortBy=food" class="dropdown-item">餐飲食品</a>
+      <a href="/sortBy=other" class="dropdown-item">其他</a>
+    </div>
+  </div>
+  <a href="/records/new" class="btn btn-outline-secondary m-3">Create</a>
+<div class="m-5"><h3>總金額：${{totalAmount}}</h3>
+</div>
+<ul class="list-group mb-5">
+  {{#each records}}
+  <form action="/records/{{this._id}}?_method=DELETE" method="POST">
+  <div class="d-flex justify-content-between">
+  <li class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex justify-content-between">
+    <div>
+   <div class="d-flex justify-content-between">
+   {{#if (ifEqual this.categoryId 1)}}<i class="fas fa-home fa-2x"></i>{{/if}}
+  {{#if (ifEqual this.categoryId 2)}}<i class="fas fa-shuttle-van fa-2x"></i>{{/if}}
+  {{#if (ifEqual this.categoryId 3)}}<i class="fas fa-grin-beam fa-2x"></i>{{/if}}
+  {{#if (ifEqual this.categoryId 4)}}<i class="fas fa-utensils fa-2x"></i>{{/if}}
+  {{#if (ifEqual this.categoryId 5)}}<i class="fas fa-pen fa-2x"></i>{{/if}}
+    <div class="ml-3">
+    <h5 class="mb-1">{{this.name}}</h5>
+    <small>{{this.date}}</small>
+    </div>
+    </div>
+    </div>
+    <big>${{this.amount}}</big>
+    </div>
+  </li>
+<!--buttons-->
+  <a href="/records/{{this._id}}/edit" class="btn">EDIT</a>
+  <button type="submit" class="btn">DELETE</button>
+  </div>
+  </form>
+  {{/each}}
+</ul>
+</div>
