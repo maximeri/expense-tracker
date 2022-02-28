@@ -5,6 +5,7 @@ const PORT = 3000
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 const routes = require('./routes')
+const session = require('express-session')
 require('./config/mongoose')
 const Handlebars = require("handlebars")
 app.engine('.hbs', engine({ extname: '.hbs' }));
@@ -15,7 +16,11 @@ module.exports = Handlebars.registerHelper("ifEqual", function (v1, v2) {
   if (v1 === v2)
     return true
 });
-
+app.use(session({
+  secret: 'mySessionSecret',
+  resave: false,
+  saveUninitialized: true,
+}))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 app.use(routes)
