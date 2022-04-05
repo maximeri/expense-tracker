@@ -23,7 +23,8 @@ router.post('/register', async (req, res) => {
         res.redirect('register',{name,email,password})
         .catch(err => console.log(err))
       }
-  })
+    }
+  )
 })
 
 // login

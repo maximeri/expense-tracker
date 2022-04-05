@@ -1,13 +1,14 @@
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const User = require('../models/user')
+const bcrypt = require('bcrypt')
 
 module.exports = passportConfig => {
   passportConfig.use(passport.initialize());
   passportConfig.use(passport.session());
 
-  passport.use(new LocalStrategy(
-    function (email, password, done) {
+  passport.use(new LocalStrategy({ usernameField: 'email' },
+    function (email,password, done) {
       User.findOne({ email }, function (err, user) {
         if (err) { 
           console.log('cannot connect to db')
@@ -17,9 +18,10 @@ module.exports = passportConfig => {
           console.log('cannot find the user')
           return done(null, false); 
         }
-        if (!user.password) { 
+        if (!bcrypt.compare(password, user.password)) { 
           console.log('wrong password')
-          return done(null, false); }
+          return done(null, false); 
+        }
         return done(null, user);
       });
     }
