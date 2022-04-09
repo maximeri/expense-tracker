@@ -1,10 +1,12 @@
 const express = require('express')
 const router = express.Router()
 const Record = require('../../models/record')
+const User = require('../modules/users')
 const moment = require('moment')
 
 router.get('/', async (req, res) => {
-  await Record.find().lean()
+  const userId = req.user._id
+  await Record.find(userId).lean()
   .then(records=> {
     let totalAmount = 0
     records.forEach(record => {

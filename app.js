@@ -12,7 +12,6 @@ const Handlebars = require("handlebars")
 app.engine('.hbs', engine({ extname: '.hbs' }));
 app.set('view engine', '.hbs');
 app.set('views', './views');
-
 module.exports = Handlebars.registerHelper("ifEqual", function (v1, v2) {
   if (v1 === v2)
     return true
@@ -25,6 +24,11 @@ app.use(session({
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 usePassport(app)
+app.use((req,res,next)=>{
+  res.locals.isAuthenticated = req.isAuthenticated()
+  res.locals.user = req.user
+  next()
+})
 app.use(routes)
 
 app.listen(PORT, ()=>{
