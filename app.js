@@ -9,6 +9,8 @@ const routes = require('./routes')
 const session = require('express-session')
 require('./config/mongoose')
 const Handlebars = require("handlebars")
+const flash = require('connect-flash')
+
 app.engine('.hbs', engine({ extname: '.hbs' }));
 app.set('view engine', '.hbs');
 app.set('views', './views');
@@ -24,9 +26,14 @@ app.use(session({
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 usePassport(app)
+app.use(flash())
 app.use((req,res,next)=>{
+  // const explainResLocals = { locals: { success_msg: "I'm successful" } }
+  // console.log(explainResLocals.locals.success_msg)
   res.locals.isAuthenticated = req.isAuthenticated()
   res.locals.user = req.user
+  res.locals.success_msg = req.flash('success_msg')
+  res.locals.warning_msg = req.flash('warning_msg')
   next()
 })
 app.use(routes)
