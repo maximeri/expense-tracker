@@ -5,9 +5,11 @@ const User = require('../modules/users')
 const moment = require('moment')
 
 router.get('/', async (req, res) => {
-  const userId = req.user._id
-  await Record.find(userId).lean()
+  const userId = req.user.userId
+  // console.log(userId)
+  Record.find({userId}).lean()
   .then(records=> {
+    console.log(records)
     let totalAmount = 0
     records.forEach(record => {
       const amount = record.amount
@@ -22,7 +24,8 @@ router.get('/', async (req, res) => {
 
 // sort
 router.get('/sortBy=household', async (req, res) => {
-  await Record.find({categoryId:1}).lean()
+  const userId = req.user.userId
+  await Record.find({userId, categoryId:1}).lean()
     .then(records => {
       let totalAmount = 0
       records.forEach(record => {
@@ -36,7 +39,8 @@ router.get('/sortBy=household', async (req, res) => {
 })
 
 router.get('/sortBy=transportation', async (req, res) => {
-  await Record.find({ categoryId: 2 }).lean()
+  const userId = req.user.userId
+  await Record.find({ userId, categoryId: 2 }).lean()
     .then(records => {
       let totalAmount = 0
       records.forEach(record => {
@@ -50,7 +54,8 @@ router.get('/sortBy=transportation', async (req, res) => {
 })
 
 router.get('/sortBy=entertainment', async (req, res) => {
-  await Record.find({ categoryId: 3 }).lean()
+  const userId = req.user.userId
+  await Record.find({ userId, categoryId: 3 }).lean()
     .then(records => {
       let totalAmount = 0
       records.forEach(record => {
@@ -64,7 +69,8 @@ router.get('/sortBy=entertainment', async (req, res) => {
 })
 
 router.get('/sortBy=food', async (req, res) => {
-  await Record.find({ categoryId: 4 }).lean()
+  const userId = req.user.userId
+  await Record.find({ userId, categoryId: 4 }).lean()
     .then(records => {
       let totalAmount = 0
       records.forEach(record => {
@@ -78,7 +84,8 @@ router.get('/sortBy=food', async (req, res) => {
 })
 
 router.get('/sortBy=other', async (req, res) => {
-  await Record.find({ categoryId: 5}).lean()
+  const userId = req.user.userId
+  await Record.find({ userId, categoryId: 5}).lean()
     .then(records => {
       let totalAmount = 0
       records.forEach(record => {

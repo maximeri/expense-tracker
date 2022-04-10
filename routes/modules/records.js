@@ -10,15 +10,16 @@ router.get('/new', (req, res) => {
 
 router.post('/', (req, res) => {
   const {name, date,amount,categoryId} = req.body
-  const userId = 1 // needs refactor
-  Record.create({ name, date, amount, categoryId,userId})
+  const userId = req.user.userId
+  Record.create({ name, date, amount, categoryId, userId})
   .then(()=>res.redirect('/'))
 })
 
 // edit
 router.get('/:id/edit', (req, res) => {
-  const id = req.params.id
-  Record.findById(id)
+  const userId = req.user.userId
+  const _id = req.params.id
+  Record.findOne({userId,_id})
     .lean()
     .then(record => {
       const fomatted_date = moment(record.date).format('YYYY-MM-DD')
@@ -27,9 +28,10 @@ router.get('/:id/edit', (req, res) => {
 })
 
 router.put('/:id', async (req, res) => {
-  const id = req.params.id
+  const userId = req.user.userId
+  const _id = req.params.id
   const { name, date, amount, categoryId } = req.body
-  Record.findById(id)
+  Record.findOne({ _id, userId})
     .then(record => {
       record.name = name
       record.date = date
@@ -42,8 +44,9 @@ router.put('/:id', async (req, res) => {
 
 // delete
 router.delete('/:id', async (req, res) => {
-  const id = req.params.id
-  await Record.deleteOne({ _id: id })
+  const userId = req.user.userId
+  const _id = req.params.id
+  await Record.deleteOne({ _id, userId })
   res.redirect(`/`)
 })
 

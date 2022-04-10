@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const { Schema } = mongoose
-let counter = 1;
-let countedId = { type: Number, default: () => counter++ };
+let counter = 1
+let countedId = { type: Number, default: () => counter++ }
 const recordSchema = new Schema({
   id: countedId,
   name: {
