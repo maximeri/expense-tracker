@@ -1,5 +1,6 @@
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
+const FacebookStrategy = require('passport-facebook').Strategy
 const User = require('../models/user')
 const bcrypt = require('bcrypt')
 
@@ -26,6 +27,16 @@ module.exports = passportConfig => {
       });
     }
   ));
+
+  passport.use(new FacebookStrategy({
+    clientID: process.env.FACEBOOK_ID,
+    clientSecret: process.env.FACEBOOK_SECRET,
+    callbackURL: process.env.FACEBOOK_CALLBACK,
+    profileFields: ['email', 'displayName']
+  }, (accessToken, refreshToken, profile, done) => {
+    console.log(profile)
+  }))
+
 
   passport.serializeUser(function (user, done) {
     done(null, user.id);

@@ -10,6 +10,10 @@ const session = require('express-session')
 require('./config/mongoose')
 const Handlebars = require("handlebars")
 const flash = require('connect-flash')
+require('dotenv').config()
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 
 app.engine('.hbs', engine({ extname: '.hbs' }));
 app.set('view engine', '.hbs');
@@ -19,7 +23,7 @@ module.exports = Handlebars.registerHelper("ifEqual", function (v1, v2) {
     return true
 });
 app.use(session({
-  secret: 'mySessionSecret',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
 }))
