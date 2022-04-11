@@ -63,7 +63,7 @@ router.post('/login',
   })
 );
 
-// logout
+// logout Invoking logout() will remove the req.user property and clear the login session
 router.get('/logout',(req,res)=>{
   req.logout()
   req.flash('success_msg', '你已經成功登出。')

@@ -1,7 +1,7 @@
 const express =require('express')
 const {engine} = require('express-handlebars')
 const app = express()
-const PORT = 3000
+const PORT = process.env.PORT
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 const usePassport = require('./config/passport')
