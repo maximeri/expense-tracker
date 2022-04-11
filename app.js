@@ -1,7 +1,7 @@
 const express =require('express')
 const {engine} = require('express-handlebars')
 const app = express()
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 3000
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 const usePassport = require('./config/passport')
@@ -10,12 +10,12 @@ const session = require('express-session')
 require('./config/mongoose')
 const Handlebars = require("handlebars")
 const flash = require('connect-flash')
-require('dotenv').config()
+
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 
-app.engine('.hbs', engine({ extname: '.hbs' }));
+app.engine('.hbs', engine({ defaultLayout: 'main', extname: '.hbs' }));
 app.set('view engine', '.hbs');
 app.set('views', './views');
 module.exports = Handlebars.registerHelper("ifEqual", function (v1, v2) {
