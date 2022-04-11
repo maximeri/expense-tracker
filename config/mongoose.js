@@ -9,7 +9,6 @@ db.once('open',()=>{
 })
 
 db.on('error', err => {
-  logError(err);
   console.log('mongodb error!')
 });
 
