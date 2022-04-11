@@ -4,10 +4,10 @@ const Record = require('../../models/record')
 const User = require('../modules/users')
 const moment = require('moment')
 
-router.get('/', async (req, res) => {
+router.get('/', (req, res) => {
   const userId = req.user.userId
-  // console.log(userId)
-  Record.find({userId}).lean()
+  Record.find({userId})
+  .lean()
   .then(records=> {
     console.log(records)
     let totalAmount = 0
